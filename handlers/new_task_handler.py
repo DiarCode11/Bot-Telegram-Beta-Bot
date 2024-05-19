@@ -25,7 +25,7 @@ def NewTaskHandler(bot, chat_id, message_id, mode, sessions):
         button = InlineKeyboardMarkup(inline_keyboard=[
                 [InlineKeyboardButton(text='👌 Simpan Tugas', callback_data='save_task'),
                  InlineKeyboardButton(text='🚫 Reset Task', callback_data='new_task')],
-                [InlineKeyboardButton(text='⏮️ Home', callback_data='home')]
+                [InlineKeyboardButton(text='⏮️ Home', callback_data='back')]
         ])
         
         bot.editMessageText((chat_id, message_id), msg, parse_mode='Markdown', reply_markup=button)

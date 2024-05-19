@@ -37,3 +37,12 @@ def save_task(task, date, time, chat_id):
     
     # Menyimpan DataFrame ke dalam file CSV
     df.to_csv(csv_file_path, index=False)
+    
+def Download_csv(bot, chat_id):
+    folder_name = 'csv_files'
+    csv_file_path = f'{folder_name}/{chat_id}.csv'
+ 
+    # Periksa apakah file CSV ada
+    if os.path.exists(csv_file_path):
+        # Kirim file CSV ke pengguna
+        bot.sendDocument(chat_id, open(csv_file_path, 'rb'))

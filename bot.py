@@ -4,7 +4,7 @@ import time
 from telepot.loop import MessageLoop
 from dotenv import load_dotenv
 from handlers import StartHandler, NewTaskHandler, TaskSubmittedHandler, ShowTasksHandler, BackHandler
-from task_utils import validate_date, validate_time, save_task
+from task_utils import validate_date, validate_time, save_task, Download_csv
 
 class BetaBot:
     def __init__(self, token):
@@ -90,6 +90,9 @@ class BetaBot:
         
         elif query_data == 'back':
             BackHandler(self.bot, chat_id, message_id)
+            
+        elif query_data == 'download_csv': 
+            Download_csv(self.bot, chat_id)
 
     def start(self):
         print('Bot is listening ...')

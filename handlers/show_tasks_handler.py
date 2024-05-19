@@ -17,6 +17,7 @@ def ShowTasksHandler(bot, chat_id, message_id):
             
             button = InlineKeyboardMarkup(inline_keyboard=[
                 [InlineKeyboardButton(text='📝 Tugas baru', callback_data='new_task')],
+                [InlineKeyboardButton(text='⬇ Download CSV', callback_data='download_csv')],
                 [InlineKeyboardButton(text='🔙 Kembali', callback_data='back')]
             ])
         else:
