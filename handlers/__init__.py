@@ -3,3 +3,4 @@ from .start_handler import BackHandler
 from .new_task_handler import NewTaskHandler
 from .task_submited_handler import TaskSubmittedHandler
 from .show_tasks_handler import ShowTasksHandler
+from .send_notif_handler import SendNotifHandler

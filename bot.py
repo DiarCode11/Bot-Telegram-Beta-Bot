@@ -4,7 +4,7 @@ import time
 from telepot.loop import MessageLoop
 from dotenv import load_dotenv
 from handlers import StartHandler, NewTaskHandler, TaskSubmittedHandler, ShowTasksHandler, BackHandler
-from task_utils import validate_date, validate_time, save_task, Download_csv
+from task_utils import validate_date, validate_time, save_task, Download_csv, combine_tasks, reminder
 
 class BetaBot:
     def __init__(self, token):
@@ -67,6 +67,7 @@ class BetaBot:
                     
                     time.sleep(1) 
                     self.bot.deleteMessage((chat_id, msg['message_id']))
+                    
                 else : 
                     msg = 'Masukkan format dengan benar!'
                     elf.bot.sendMessage(chat_id, msg)
@@ -86,6 +87,7 @@ class BetaBot:
         
         elif query_data == 'save_task':
             save_task(self.sessions[chat_id]['taskname'], self.sessions[chat_id]['date'], self.sessions[chat_id]['time'], chat_id)
+            combine_tasks()
             TaskSubmittedHandler(self.bot, chat_id, message_id)
         
         elif query_data == 'back':
@@ -98,6 +100,7 @@ class BetaBot:
         print('Bot is listening ...')
         # Keep the program running
         while True:
+            reminder(self.bot)
             time.sleep(5)
 
 if __name__ == '__main__':
