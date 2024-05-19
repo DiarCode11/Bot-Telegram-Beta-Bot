@@ -19,6 +19,9 @@ def validate_time(time_text):
         return False
     
 def save_task(task, date, time, chat_id):
+    if not os.path.exists('csv_files'): 
+        os.makedirs(f'csv_files')
+    
     # Membuat DataFrame baru dari data input
     df_new = pd.DataFrame({'Task': [task], 'Date': [date], 'Time': [time]})
     
@@ -68,39 +71,41 @@ def combine_tasks():
     print(f'All files combined and saved as {output_path}')
     
 def reminder(bot): 
-    current_time = datetime.now().time()
+    if os.path.exists('csv_files/combined.csv'):
+        # Cari waktu sekarang
+        current_time = datetime.now().time()
 
-    # Path ke file CSV
-    file_path = 'csv_files/combined.csv'
+        # Path ke file CSV
+        file_path = 'csv_files/combined.csv'
 
-    # Membaca file CSV ke dalam DataFrame
-    df = pd.read_csv(file_path)
+        # Membaca file CSV ke dalam DataFrame
+        df = pd.read_csv(file_path)
 
-    # Asumsikan kolom 'deadline' berisi tanggal dalam format 'YYYY-MM-DD'
-    # Konversi kolom 'deadline' ke datetime
-    df['Deadline'] = pd.to_datetime(df['Date'])
+        # Asumsikan kolom 'deadline' berisi tanggal dalam format 'YYYY-MM-DD'
+        # Konversi kolom 'deadline' ke datetime
+        df['Deadline'] = pd.to_datetime(df['Date'])
 
-    # Dapatkan tanggal saat ini
-    current_date = datetime.now()
+        # Dapatkan tanggal saat ini
+        current_date = datetime.now()
 
-    # Hitung selisih hari antara deadline dan tanggal saat ini
-    df['days_until_deadline'] = (df['Deadline'] - current_date).dt.days
+        # Hitung selisih hari antara deadline dan tanggal saat ini
+        df['days_until_deadline'] = (df['Deadline'] - current_date).dt.days
 
-    # Filter tugas dengan deadline kurang dari 7 hari
-    tasks_due_soon = df[df['days_until_deadline'] < 7]
+        # Filter tugas dengan deadline kurang dari 7 hari
+        tasks_due_soon = df[df['days_until_deadline'] < 7]
 
-    # Tampilkan tugas yang deadline kurang dari 7 hari
-    for index, row in tasks_due_soon.iterrows():
-        taskname = row['Taskname']
-        deadline = row['Deadline']
-        time = row['Time']
-        chat_id = row['Chat ID']
-        days_until_deadline = row['days_until_deadline']
+        # Tampilkan tugas yang deadline kurang dari 7 hari
+        for index, row in tasks_due_soon.iterrows():
+            taskname = row['Taskname']
+            deadline = row['Deadline']
+            time = row['Time']
+            chat_id = row['Chat ID']
+            days_until_deadline = row['days_until_deadline']
 
-        # Cek apakah jam 6.00
-        if current_time.hour == 6 and current_time.minute == 0:
-            # Kirim notifikasi  
-            SendNotifHandler(bot, chat_id, taskname, deadline, time, days_until_deadline)
+            # Cek apakah jam 6.00
+            if current_time.hour == 6 and current_time.minute == 0:
+                # Kirim notifikasi  
+                SendNotifHandler(bot, chat_id, taskname, deadline, time, days_until_deadline)
 
         
 def Download_csv(bot, chat_id):
