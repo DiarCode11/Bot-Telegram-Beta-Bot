@@ -81,9 +81,8 @@ def reminder(bot):
         # Membaca file CSV ke dalam DataFrame
         df = pd.read_csv(file_path)
 
-        # Asumsikan kolom 'deadline' berisi tanggal dalam format 'YYYY-MM-DD'
         # Konversi kolom 'deadline' ke datetime
-        df['Deadline'] = pd.to_datetime(df['Date'])
+        df['Deadline'] = pd.to_datetime(df['Date'], format='%d-%m-%Y')
 
         # Dapatkan tanggal saat ini
         current_date = datetime.now()
